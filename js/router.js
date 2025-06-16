@@ -67,9 +67,7 @@ const Router = {
         const container = document.querySelector('.container');
         container.innerHTML = `
             <header class="header">
-                <h1 class="site-title">Admin Panel</h1>
-                <p class="site-subtitle">Manage your essays</p>
-                <a href="#home" class="back-link">← Back to Essays</a>
+                <h1 class="site-title">Admin Panel</h1> 
             </header>
 
             <!-- Login Form -->

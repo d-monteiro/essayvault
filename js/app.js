@@ -13,8 +13,8 @@ function logout() {
 
 function addEssay() {
     if (Essays.add()) {
-        // Essay added successfully, refresh admin view
-        Router.loadAdminEssays();
+        // Remove this line since Essays.add() already handles the refresh
+        // Router.loadAdminEssays();
     }
 }
 

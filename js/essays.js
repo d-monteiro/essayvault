@@ -33,9 +33,14 @@ const Essays = {
         this.essays.unshift(newEssay);
         
         if (Storage.saveEssays(this.essays)) {
-            this.render();
+            // Only refresh the appropriate view, don't try to render essays in admin view
+            if (Router.currentRoute === '/admin') {
+                Router.loadAdminEssays();
+            } else {
+                this.render();
+            }
+            
             Auth.clearAdminForm();
-            alert('Essay published successfully!');
             return true;
         } else {
             alert('Error saving essay. Please try again.');
@@ -45,22 +50,22 @@ const Essays = {
 
     // Delete essay
     delete(id) {
-        if (confirm('Are you sure you want to delete this essay?')) {
-            this.essays = this.essays.filter(essay => essay.id !== id);
-            Storage.saveEssays(this.essays);
-            
-            // Refresh based on current route
-            if (Router.currentRoute === 'admin') {
-                Router.loadAdminEssays();
-            } else {
-                this.render();
-            }
+        this.essays = this.essays.filter(essay => essay.id !== id);
+        Storage.saveEssays(this.essays);
+        
+        // Fix the route name to include the leading slash
+        if (Router.currentRoute === '/admin') {
+            Router.loadAdminEssays();
+        } else {
+            this.render();
         }
     },
 
     // Render essays
     render() {
         const essaysList = document.getElementById('essaysList');
+
+        if(!essaysList) return;
         
         if (this.essays.length === 0) {
             essaysList.innerHTML = '<div class="no-essays">No essays published yet.</div>';
